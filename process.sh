@@ -1,3 +1,5 @@
+#!/bin/sh
+
 top_ops=15
 echo 'RANK   ID        SCORE           DATA'
 echo '-------------------------------------'
