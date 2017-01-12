@@ -4,9 +4,10 @@ import urllib2
 import re
 import json
 
+pattern = re.compile('<time .*?>(.*?)</time>.*?<div itemprop="name">(.*?)</div>', re.DOTALL)
+
 for page in xrange(5):
     request_url = 'http://www.concert.ru/Actions.aspx?ActionTypeID=1&GenreTypeID=2&page={}'.format(page)
-    pattern = re.compile('<time .*?>(.*?)</time>.*?<div itemprop="name">(.*?)</div>', re.DOTALL)
     response = urllib2.urlopen(request_url).read()
     lst = pattern.findall(response)
     for t in lst:
