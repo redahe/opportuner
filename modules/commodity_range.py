@@ -8,7 +8,7 @@ big_price = 6000
 
 for line in sys.stdin.readlines():
     data = json.loads(line)
-    name = data.pop('name')
+    name = data.pop('name').replace(' ', '_')
     price = float(data.get('price', 1000000) or 1000000)
     good = data['good']
     score = 1000000/price

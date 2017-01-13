@@ -8,7 +8,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-goods = ['SNES', 'Panasonic 3DO', 'HTC Vive']
+goods = ['Doom', 'SNES', 'Panasonic 3DO', 'HTC Vive']
 
 pattern = re.compile('(<div class="b-photo">.*?img src="(.*?)".*?)?<h3 class="title item-description-title"> <a class="item-description-title-link" href="(.*?)" .*?>(.*?)<.*?out">(.*?)<', re.DOTALL)
 
@@ -19,7 +19,7 @@ for good in goods:
     for item in lst:
         link = 'https://www.avito.ru' + item[2].strip().encode('utf-8')
         name = item[3].strip()
-        img = 'https://' + item[1].strip()
+        img = 'https:' + item[1].strip()
         price = item[4].strip().replace(' ', '')[:-4]
         res = {'name': name, 'price': price, 'link': link, 'img': img,
                'good': good.replace(' ', '_')}
