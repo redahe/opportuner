@@ -1,7 +1,11 @@
 #!/usr/bin/python
 
-import sys
 import json
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 
 min_price = 2000
 big_price = 6000
@@ -9,11 +13,17 @@ big_price = 6000
 for line in sys.stdin.readlines():
     data = json.loads(line)
     name = data.pop('name').replace(' ', '_')
-    price = float(data.get('price', 1000000) or 1000000)
-    good = data['good']
+    try:
+        price = float(data.get('price', 1000000) or 1000000)
+    except Exception as e:
+        sys.stderr.write(str(e) + '\n')
+        sys.stderr.write(data['price'])
+        sys.stderr.write('\n')
+        price = 1000000
     score = 1000000/price
     if price < min_price:
-        continue
+        score -= 2000
     if price > big_price:
         score += 2000
-    print score, name.encode('utf-8'), json.dumps(data).encode('utf-8')
+
+    print score, name, json.dumps(data)

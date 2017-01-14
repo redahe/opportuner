@@ -1,7 +1,10 @@
 #!/usr/bin/python
 
-import sys
 import json
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 
 colors = ['#CECECE', '#E2E2E2']
 
@@ -36,7 +39,10 @@ for line in sys.stdin.readlines():
     if data:
         print '<td>'
         for k, v in data.iteritems():
-            print '<p>' + str(k) + ': ' + str(v) + '</p>'
+            try:
+                print '<p>' + str(k) + ': ' + str(v) + '</p>'
+            except Exception as e:
+                sys.stderr.write(str(e)+'\n')
         print '</td>'
     print '<td width="15%">' + str(score) + '</td>'
     print '</tr>'
