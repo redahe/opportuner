@@ -12,7 +12,7 @@ for line in sys.stdin.readlines():
     data = json.loads(line)
     name = data.pop('name')
     name = name.replace(' ', '_')
-    score = (1.0/ln)
+    score = (100 - ln)
     if pattern.match(name):
-        score += 0.5
+        score += 15
     print score, name.encode('utf-8'), json.dumps(data, ensure_ascii=False).encode('utf-8')
