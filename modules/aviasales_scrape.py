@@ -25,7 +25,7 @@ for t in data:
     if dst not in destinations:
         continue
     result['DST'] = dst
-    result['Price'] = t['value']
+    result['price'] = t['value']
     result['ttl'] = t['ttl']
     result['ret_date'] = t['return_date']
     result['depart_date'] = t['depart_date']
