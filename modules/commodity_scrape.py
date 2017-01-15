@@ -5,9 +5,13 @@ import urllib2
 import re
 import json
 import sys
+import logging
 
 reload(sys)
 sys.setdefaultencoding('utf8')
+
+logging.basicConfig(stream=sys.stderr)
+logger = logging.getLogger('commodity_scrape.py')
 
 goods = []
 
@@ -18,7 +22,11 @@ pattern = re.compile('(<div class="b-photo">.*?img src="(.*?)".*?)?<h3 class="ti
 
 for good in goods:
     request_url = 'https://www.avito.ru/moskva?q='+good.replace(' ', '+')
-    response = urllib2.urlopen(request_url).read().decode('utf-8')
+    try:
+        response = urllib2.urlopen(request_url).read().decode('utf-8')
+    except Exception as e:
+        logger.error(str(e) + ' on ' + good)
+        continue
     lst = pattern.findall(response)
     for item in lst:
         link = 'https://www.avito.ru' + item[2].strip().encode('utf-8')
