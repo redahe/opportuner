@@ -5,19 +5,20 @@ import json
 
 symbols = ['GOOG', 'AAPL', 'NVDA', 'TSLA', 'IBM', 'KO', 'MCD', 'TWX', 'DIS',
            'FB', 'YUM', 'TWTR', 'VIA', 'PYPL', 'AMZN', 'NFLX']
-request_url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22' +\
-          '%22%2C%22'.join(symbols) +\
-          '%22)%0A%09%09&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback='
+
+
+request_url = 'http://finance.yahoo.com/d/quotes.csv?s=' +\
+    ','.join(symbols) + '&f=rp6p5ys'
+
 
 response = urllib2.urlopen(request_url).read()
-data = json.loads(response)
-quotes = data['query']['results']['quote']
 
-for q in quotes:
+for q in response.splitlines():
+    q = q.split(',')
     result = {}
-    result['PE'] = q.get('PERatio', None)
-    result['PB'] = q.get('PriceBook', None)
-    result['PS'] = q.get('PriceSales', None)
-    result['DY'] = q.get('DividendYield', None)
-    result['SYMBOL'] = q.get('symbol', None)
+    result['PE'] = q[0]
+    result['PB'] = q[1]
+    result['PS'] = q[2]
+    result['DY'] = q[3]
+    result['SYMBOL'] = q[4]
     print json.dumps(result)
