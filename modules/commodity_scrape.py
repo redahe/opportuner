@@ -10,7 +10,7 @@ import logging
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-logging.basicConfig(stream=sys.stderr)
+logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 logger = logging.getLogger('commodity_scrape.py')
 
 goods = []
@@ -18,9 +18,10 @@ goods = []
 for l in sys.stdin.readlines():
     goods.append(l.strip())
 
-pattern = re.compile('(<div class="b-photo">.*?img src="(.*?)".*?)?<h3 class="title item-description-title"> <a class="item-description-title-link" href="(.*?)" .*?>(.*?)<.*?out">(.*?)<', re.DOTALL)
+pattern = re.compile('(<div class="b-photo">.*?img src="(.*?)".*?)?<h3 class="title item-description-title"> <a class="item-description-title-link".*?href="(.*?)".*?">(.*?)</a>.*?about">(.*?)</div>', re.DOTALL)
 
 for good in goods:
+    logger.info(str(good))
     request_url = 'https://www.avito.ru/moskva?q='+good.replace(' ', '+')
     try:
         response = urllib2.urlopen(request_url).read().decode('utf-8')
